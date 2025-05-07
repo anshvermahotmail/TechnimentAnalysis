@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .user {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            display: inline-block;
+        }
+        .user h3 {
+            margin: 0;
+        }
+        .user p {
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the FastAPI User List</h1>
+    <p>Click below to fetch random users from the API:</p>
+
+    <button id="fetch-users">Fetch Random Users</button>
+
+    <div id="user-list"></div>
+
+    <script>
+        document.getElementById("fetch-users").addEventListener("click", async function() {
+            const response = await fetch("/list");
+            const users = await response.json();
+
+            const userListContainer = document.getElementById("user-list");
+            userListContainer.innerHTML = "";  // Clear previous list
+
+            // Display each user
+            users.forEach(user => {
+                const userDiv = document.createElement("div");
+                userDiv.className = "user";
+                userDiv.innerHTML = `<h3>${user.name}</h3><p>Age: ${user.age}</p><p>Email: ${user.email}</p>`;
+                userListContainer.appendChild(userDiv);
+            });
+        });
+    </script>
+
+</body>
+</html>
